@@ -129,8 +129,8 @@ public final class Constants {
       public static final int kBLCANCoderID = 32;
       public static final int kBRCANCoderID = 31;
 
-      public static final boolean kFRCANCoderReversed = true;
-      public static final boolean kFLCANCoderReversed = true;
+      public static final boolean kFRCANCoderReversed = false;    
+      public static final boolean kFLCANCoderReversed = false;      
       public static final boolean kBLCANCoderReversed = false;
       public static final boolean kBRCANCoderReversed = false;
 
@@ -139,7 +139,7 @@ public final class Constants {
       // public static final double kFLCANCoderOffset= 152.25;
       // public static final double kBLCANCoderOffset = 38.75;
 
-      public static final double kFLEncoderOffset = //119.6 - 90;
+      public static final double kFLEncoderOffset = 119.6-90;
       public static final double kBLEncoderOffset = -130.7 - 90;
       public static final double kFREncoderOffset = 33.1 - 90;
       public static final double kBREncoderOffset = 52.82 - 90;
