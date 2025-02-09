@@ -20,10 +20,12 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.pathplanner.lib.config.ModuleConfig;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -47,7 +49,7 @@ public class SwerveModule {
     private final SparkMax turnMotor;
     private final CANcoder canCoder;
     private final TalonFXConfigurator driveConfigurator;
-    private final SparkMaxConfig config;
+    private final SparkMaxConfig sparkConfig;
 
     private final DutyCycleOut driveRequest;
     private final PIDController turnPIDController;
@@ -105,13 +107,20 @@ public class SwerveModule {
 
         this.brakeRequest = new NeutralOut();
 
-        this.config = new SparkMaxConfig();
+        this.sparkConfig = new SparkMaxConfig();
 
-        config
+        sparkConfig
                 .smartCurrentLimit(50)
                 .idleMode(IdleMode.kBrake)
                 .openLoopRampRate(0.2)
                 .inverted(invertTurningMotor);
+
+        sparkConfig.closedLoop
+                .pidf(ModuleConstants.kPTurning, ModuleConstants.kITurning, ModuleConstants.kDTurning,
+                        ModuleConstants.kFTurning)
+                .positionWrappingEnabled(true);
+
+        turnMotor.configure(sparkConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
         // turnMotor.restoreFactoryDefaults();
         // turnMotor.setSmartCurrentLimit(50);
@@ -123,12 +132,13 @@ public class SwerveModule {
         this.turnMotorID = turningMotorId;
         this.CANCoderID = CANCoderId;
 
-        // boolean isFrontMotor = (turningMotorId == SwerveDriveConstants.kFLTurningID) || (turningMotorId == SwerveDriveConstants.kFRTurningID);
+        // boolean isFrontMotor = (turningMotorId == SwerveDriveConstants.kFLTurningID)
+        // || (turningMotorId == SwerveDriveConstants.kFRTurningID);
 
         this.turnPIDController = new PIDController(
-                ModuleConstants.kPTurning,
-                ModuleConstants.kITurning,
-                ModuleConstants.kDTurning);
+        ModuleConstants.kPTurning,
+        ModuleConstants.kITurning,
+        ModuleConstants.kDTurning);
 
         turnPIDController.enableContinuousInput(0, 360); // Originally was -pi to pi
         turnPIDController.setTolerance(.005);
@@ -226,7 +236,7 @@ public class SwerveModule {
         this.desiredVelocity = velocity;
 
         double trackedCurrentAngle = getTurningPositionDegreesWithOffset();
-        double currentAngle = getTurningPositionDegreesWithOffset();
+        // double currentAngle = getTurningPositionDegreesWithOffset();
 
         if (Math.abs(closetAngle(trackedCurrentAngle, desiredAngle)) > 90) {
 
@@ -239,6 +249,7 @@ public class SwerveModule {
         }
 
         turnMotor.set(turnPIDController.calculate(trackedCurrentAngle, desiredAngle));
+        System.out.println(velocity);
 
         if (Math.abs(velocity) < 0.001) {
             driveMotor.setControl(brakeRequest);
@@ -356,7 +367,8 @@ public class SwerveModule {
      */
     public SwerveModuleState getState() {
         currState.speedMetersPerSecond = getDriveVelocity();
-        currState.angle = Rotation2d.fromRadians(getTurningPosition());
+        currState.angle = Rotation2d.fromRadians(Math.toRadians(getTurningPositionDegreesWithOffset()));
+        // currState.angle = new Rotation2d(getTurningPositionDegreesWithOffset());
         return currState;
         // return new SwerveModuleState(getDriveVelocity(), new
         // Rotation2d(getTurningPosition()));

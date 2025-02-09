@@ -27,7 +27,6 @@ public class SwerveJoystickCommand extends Command {
       if (Math.abs(val) < DriveConstants.kAngDeadband) {
         val = 0;
       }
-      System.out.println(val * drive.getAng());
       return val * drive.getAng();
     } else {
       if (Math.abs(val) < DriveConstants.kTanDeadband) {

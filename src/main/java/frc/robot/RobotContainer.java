@@ -4,33 +4,16 @@
 
 package frc.robot;
 
-import frc.robot.commands.Shooter.shooterPercentCommand;
-import frc.robot.commands.commandgroups.AmpScoringCommand;
-import frc.robot.commands.commandgroups.GroundIntakeCommand;
-import frc.robot.commands.commandgroups.NeutralPositionCommand;
-import frc.robot.commands.commandgroups.ShooterFeedingCommand;
-import frc.robot.commands.indexer.IndexerPercentCommand;
-import frc.robot.commands.intake.IntakePercentCommand;
 import frc.robot.commands.swerve.SwerveJoystickCommand;
-import frc.robot.commands.wrist.WristPercentCommand;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.FlyWheelShooter;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.GyroStuffs.PigeonV2;
-import frc.robot.subsystems.LEDs.DriveTrainLEDs;
 import frc.robot.subsystems.swerve.SwerveDriveTrain;
 
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**

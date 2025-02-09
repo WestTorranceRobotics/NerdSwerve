@@ -113,10 +113,10 @@ public final class Constants {
     public static final int kBLTurningID = 12;
     public static final int kBRTurningID = 11;
 
-    public static final boolean kFRTurningReversed = false;
-    public static final boolean kFLTurningReversed = false;
-    public static final boolean kBLTurningReversed = false;
-    public static final boolean kBRTurningReversed = false;
+    public static final boolean kFRTurningReversed = true;
+    public static final boolean kFLTurningReversed = true;
+    public static final boolean kBLTurningReversed = true;
+    public static final boolean kBRTurningReversed = true;
 
     public static final boolean kFRDriveReversed = false;
     public static final boolean kFLDriveReversed = false;
@@ -124,8 +124,8 @@ public final class Constants {
     public static final boolean kBRDriveReversed = false;
 
     public static final class CANCoderConstants {
-      public static final int kFRCANCoderID = 34;
-      public static final int kFLCANCoderID = 33;
+      public static final int kFRCANCoderID = 33;
+      public static final int kFLCANCoderID = 34;
       public static final int kBLCANCoderID = 32;
       public static final int kBRCANCoderID = 31;
 
@@ -139,10 +139,10 @@ public final class Constants {
       // public static final double kFLCANCoderOffset= 152.25;
       // public static final double kBLCANCoderOffset = 38.75;
 
-      public static final double kFLEncoderOffset = 119.6-90;
-      public static final double kBLEncoderOffset = -130.7 - 90;
-      public static final double kFREncoderOffset = 33.1 - 90;
-      public static final double kBREncoderOffset = 52.82 - 90;
+      public static final double kFLEncoderOffset = 45 + 180; //119.6;
+      public static final double kBLEncoderOffset = -45; //-130.7;
+      public static final double kFREncoderOffset = 45; //33.1;
+      public static final double kBREncoderOffset = 35; //52.82;
 
     }
 
