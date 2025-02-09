@@ -177,6 +177,7 @@ public class SwerveModule {
         // config.MagnetSensor.AbsoluteSensorRange =
         // AbsoluteSensorRangeValue.Unsigned_0To1; //what
         config.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+        config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
 
         for (int i = 0; i < 5; i++) {
             initializationStatus = canCoder.getConfigurator().apply(config);
