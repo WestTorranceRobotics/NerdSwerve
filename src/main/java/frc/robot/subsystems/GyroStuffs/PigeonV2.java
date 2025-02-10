@@ -86,7 +86,8 @@ public class PigeonV2 extends SubsystemBase {
     }
 
     public double getHeading() {
-        return -pigeon.getAngle() - offset;
+        // return -pigeon.getAngle() - offset;
+        return pigeon.getYaw().getValueAsDouble() - offset;
     }
 
     public double getYaw() {

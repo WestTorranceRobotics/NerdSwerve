@@ -55,15 +55,6 @@ public class RobotContainer {
 
   private TalonFX leftFrontMotor = new TalonFX(14);
 
-  // private Arm arm = new Arm();
-  // private Wrist wrist = new Wrist();
-  // private Intake intake = new Intake();
-  // private Indexer indexer = new Indexer();
-  // private FlyWheelShooter shooter = new FlyWheelShooter();
-
-  // private DriveTrainLEDs dtLEDs = new DriveTrainLEDs();
-  // private AboveBumperLEDs abLEDs = new AboveBumperLEDs();
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -94,9 +85,9 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    driveController.square().whileTrue(Commands.run(() -> {
+    driveController.square().onTrue(Commands.run(() -> {
       leftFrontMotor.setControl(new VelocityVoltage(5));
-    }, swerveSubsystem));
+    }));
 
     driveController.square().onFalse(Commands.runOnce(() -> {
       leftFrontMotor.setControl(new NeutralOut());

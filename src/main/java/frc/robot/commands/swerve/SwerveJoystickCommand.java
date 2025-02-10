@@ -65,7 +65,7 @@ public class SwerveJoystickCommand extends Command {
       modifyInputs(x.getAsDouble(), false),
       modifyInputs(y.getAsDouble(), false), 
       modifyInputs(z.getAsDouble(), true),
-      Rotation2d.fromDegrees(-drive.getDriveHeading().getDegrees())));
+      Rotation2d.fromDegrees(drive.getDriveHeading().getDegrees())));
 
     // set LED Color
     // double[] hueRange = { 120, 180 };

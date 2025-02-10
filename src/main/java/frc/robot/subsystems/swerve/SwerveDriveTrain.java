@@ -5,7 +5,6 @@
 package frc.robot.subsystems.swerve;
 
 import com.ctre.phoenix6.swerve.SwerveDrivetrain;
-import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -19,10 +18,9 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
-import edu.wpi.first.networktables.StructArrayTopic;
 import edu.wpi.first.networktables.StructPublisher;
-import edu.wpi.first.networktables.StructTopic;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -189,10 +187,15 @@ public class SwerveDriveTrain extends SubsystemBase {
         actualStates[3] = backRight.getState();
         actualStatePublisher.set(actualStates);
 
-        rotationPublisher.set(gyro.getRotation2d().getDegrees());
+        rotationPublisher.set(gyro.getRotation2d().getRadians());
         chassisSpeedPublisher.set(getChassisSpeeds());
 
         // This method will be called once per scheduler run
+    }
+
+    @Override
+    public void simulationPeriodic() {
+
     }
 
     // ****************************** RESETTERS ******************************/
@@ -235,6 +238,10 @@ public class SwerveDriveTrain extends SubsystemBase {
         frontRight.run();
         backLeft.run();
         backRight.run();
+    }
+
+    public void simRunModules() {
+        
     }
 
     // ****************************** GETTERS ******************************/
@@ -376,7 +383,6 @@ public class SwerveDriveTrain extends SubsystemBase {
      * @param pose
      */
     public void setPoseMeters(final Pose2d pose) {
-        // odometer.resetPosition(gyro.getRotation2d(), getModulePositions(), pose);
         poseEstimator.resetPosition(gyro.getRotation2d(), getModulePositions(), pose);
     }
 

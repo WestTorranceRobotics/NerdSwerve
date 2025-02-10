@@ -129,10 +129,10 @@ public final class Constants {
       public static final int kBLCANCoderID = 32;
       public static final int kBRCANCoderID = 31;
 
-      public static final boolean kFRCANCoderReversed = false;    
-      public static final boolean kFLCANCoderReversed = false;      
-      public static final boolean kBLCANCoderReversed = false;
-      public static final boolean kBRCANCoderReversed = false;
+      public static final boolean kFRCANCoderReversed = true;    
+      public static final boolean kFLCANCoderReversed = true;      
+      public static final boolean kBLCANCoderReversed = true;
+      public static final boolean kBRCANCoderReversed = true;
 
       public static final double kFLEncoderOffset = 45 + 180; //119.6;
       public static final double kBLEncoderOffset = -45; //-130.7;
