@@ -182,7 +182,19 @@ public class SwerveModule {
         CANcoderConfiguration config = new CANcoderConfiguration();
         config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
         config.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+<<<<<<< HEAD
         canCoder.getConfigurator().apply(config);
+=======
+        config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
+
+        for (int i = 0; i < 5; i++) {
+            initializationStatus = canCoder.getConfigurator().apply(config);
+            if (initializationStatus.isOK())
+                break;
+            else if (!initializationStatus.isOK())
+                System.out.println("Failed to Configure CAN ID" + CANCoderId);
+        }
+>>>>>>> origin/minor_changes
     }
 
     public void refreshPID(double kPDrive, double kIDrive, double kDDrive, double kVDrive, double kPTurning,
