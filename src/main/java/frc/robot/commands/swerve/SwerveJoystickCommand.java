@@ -5,17 +5,12 @@
 package frc.robot.commands.swerve;
 
 import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
-
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.SwerveDriveConstants;
-import frc.robot.subsystems.LEDs.DriveTrainLEDs;
 import frc.robot.subsystems.swerve.SwerveDriveTrain;
 
 public class SwerveJoystickCommand extends Command {
@@ -32,7 +27,7 @@ public class SwerveJoystickCommand extends Command {
       if (Math.abs(val) < DriveConstants.kTanDeadband) {
         val = 0;
       }
-      return val * drive.getTan();
+      return val * drive.getMaxTanVelocity();
     }
   }
 
@@ -63,22 +58,27 @@ public class SwerveJoystickCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveFromChassis(ChassisSpeeds.fromFieldRelativeSpeeds(modifyInputs(x.getAsDouble(), false), -modifyInputs(y.getAsDouble(), false),modifyInputs(z.getAsDouble(), true),
-        Rotation2d.fromDegrees(-drive.getDriveHeading().getDegrees())));
+    // System.out.println(modifyInputs(x.getAsDouble(), false));
+    // System.out.println(modifyInputs(y.getAsDouble(), false));
+
+    driveFromChassis(ChassisSpeeds.fromFieldRelativeSpeeds(
+      modifyInputs(x.getAsDouble(), false),
+      modifyInputs(y.getAsDouble(), false), 
+      modifyInputs(z.getAsDouble(), true),
+      Rotation2d.fromDegrees(-drive.getDriveHeading().getDegrees())));
 
     // set LED Color
-    double[] hueRange = { 120, 180 };
-    double maxSpeed = 1;
-    double currentSpeed = Math.sqrt(x.getAsDouble() * x.getAsDouble() + y.getAsDouble() * y.getAsDouble());
-    currentSpeed = MathUtil.clamp(currentSpeed, 0, 1);
-    DriveTrainLEDs.setHueLerp(hueRange, currentSpeed / maxSpeed);
+    // double[] hueRange = { 120, 180 };
+    // double maxSpeed = 1;
+    // double currentSpeed = Math.sqrt(x.getAsDouble() * x.getAsDouble() + y.getAsDouble() * y.getAsDouble());
+    // currentSpeed = MathUtil.clamp(currentSpeed, 0, 1);
+    // DriveTrainLEDs.setHueLerp(hueRange, currentSpeed / maxSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     driveFromChassis(new ChassisSpeeds());
-
   }
 
   // Returns true when the command should end.

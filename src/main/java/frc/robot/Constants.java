@@ -81,8 +81,8 @@ public final class Constants {
 
     public static final double kPDrive = 0.125; // 0.6
     public static final double kIDrive = 0;
-    public static final double kDDrive = 0.01;
-    public static final double kVDrive = 0.11;
+    public static final double kDDrive = 0.01; 
+    public static final double kVDrive = 0.11; 
 
     public static final String kCANivoreName = "rio";
 
@@ -133,11 +133,6 @@ public final class Constants {
       public static final boolean kFLCANCoderReversed = false;      
       public static final boolean kBLCANCoderReversed = false;
       public static final boolean kBRCANCoderReversed = false;
-
-      // public static final double kBRCANCoderOffset = -141.67;
-      // public static final double kFRCANCoderOffset = -119.17;
-      // public static final double kFLCANCoderOffset= 152.25;
-      // public static final double kBLCANCoderOffset = 38.75;
 
       public static final double kFLEncoderOffset = 45 + 180; //119.6;
       public static final double kBLEncoderOffset = -45; //-130.7;

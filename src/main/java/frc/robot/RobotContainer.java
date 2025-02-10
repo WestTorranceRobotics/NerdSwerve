@@ -8,12 +8,17 @@ import frc.robot.commands.swerve.SwerveJoystickCommand;
 import frc.robot.subsystems.GyroStuffs.PigeonV2;
 import frc.robot.subsystems.swerve.SwerveDriveTrain;
 
-
+import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -46,7 +51,9 @@ public class RobotContainer {
   //  private POVButton driverLeftPOVButton = new POVButton(driveController, 270);
 
   private PigeonV2 gyro = new PigeonV2(9);
-  private SwerveDriveTrain drive = new SwerveDriveTrain(gyro);
+  private SwerveDriveTrain swerveSubsystem = new SwerveDriveTrain(gyro);
+
+  private TalonFX leftFrontMotor = new TalonFX(14);
 
   // private Arm arm = new Arm();
   // private Wrist wrist = new Wrist();
@@ -62,11 +69,11 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
-    drive.setDefaultCommand(new SwerveJoystickCommand(
+    swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
         driveController::getLeftY, 
         driveController::getLeftX,
         driveController::getRightX, 
-        drive));
+        swerveSubsystem));
     // Configure the trigger bindings
     configureBindings();
     initShuffleboard();
@@ -87,6 +94,13 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    driveController.square().whileTrue(Commands.run(() -> {
+      leftFrontMotor.setControl(new VelocityVoltage(5));
+    }, swerveSubsystem));
+
+    driveController.square().onFalse(Commands.runOnce(() -> {
+      leftFrontMotor.setControl(new NeutralOut());
+    }));
 
     // driveAbutton.whileTrue(new ArmPercentCommand(arm, 0.75, false));
     // driveBbutton.whileTrue(new ArmPercentCommand(arm, -0.75, false));
@@ -124,14 +138,8 @@ public class RobotContainer {
   }
 
   public final void initShuffleboard() {
-    drive.initModuleShuffleboard(1);
-    drive.initMainShuffleboard(1);
-    // arm.initShuffleboard(1);
-    // intake.initShuffleboard(1);
-    // wrist.initShuffleboard(1);
-    // shooter.initShuffleboard(1);
-    // indexer.initShuffleboard(1);
-
+    swerveSubsystem.initModuleShuffleboard(3);
+    swerveSubsystem.initMainShuffleboard(1);
   }
 
   /**

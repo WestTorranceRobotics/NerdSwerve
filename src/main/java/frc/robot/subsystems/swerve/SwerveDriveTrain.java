@@ -239,7 +239,7 @@ public class SwerveDriveTrain extends SubsystemBase {
 
     // ****************************** GETTERS ******************************/
 
-    public final double getTan() {
+    public final double getMaxTanVelocity() {
         return maxTangentialVelocity;
     }
 

@@ -106,7 +106,7 @@ public class SwerveModule {
         this.driveConfigurator.refresh(drivePIDConfigs);
 
         this.brakeRequest = new NeutralOut();
-
+        
         this.sparkConfig = new SparkMaxConfig();
 
         sparkConfig
@@ -115,10 +115,10 @@ public class SwerveModule {
                 .openLoopRampRate(0.2)
                 .inverted(invertTurningMotor);
 
-        sparkConfig.closedLoop
-                .pidf(ModuleConstants.kPTurning, ModuleConstants.kITurning, ModuleConstants.kDTurning,
-                        ModuleConstants.kFTurning)
-                .positionWrappingEnabled(true);
+        // sparkConfig.closedLoop
+        //         .pidf(ModuleConstants.kPTurning, ModuleConstants.kITurning, ModuleConstants.kDTurning,
+        //                 ModuleConstants.kFTurning)
+        //         .positionWrappingEnabled(true);
 
         turnMotor.configure(sparkConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
@@ -136,9 +136,9 @@ public class SwerveModule {
         // || (turningMotorId == SwerveDriveConstants.kFRTurningID);
 
         this.turnPIDController = new PIDController(
-        ModuleConstants.kPTurning,
-        ModuleConstants.kITurning,
-        ModuleConstants.kDTurning);
+                ModuleConstants.kPTurning,
+                ModuleConstants.kITurning,
+                ModuleConstants.kDTurning);
 
         turnPIDController.enableContinuousInput(0, 360); // Originally was -pi to pi
         turnPIDController.setTolerance(.005);
@@ -158,33 +158,31 @@ public class SwerveModule {
 
         TalonFXConfiguration driveMotorConfigs = new TalonFXConfiguration();
         driveConfigurator.refresh(driveMotorConfigs);
-        driveMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
+        // driveMotorConfigs.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RotorSensor;
         driveMotorConfigs.Voltage.PeakForwardVoltage = 11.5;
         driveMotorConfigs.Voltage.PeakReverseVoltage = -11.5;
         driveMotorConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         driveMotorConfigs.MotorOutput.DutyCycleNeutralDeadband = ModuleConstants.kDriveMotorDeadband;
-        drivePIDConfigs.kP = ModuleConstants.kPDrive;
-        drivePIDConfigs.kI = ModuleConstants.kIDrive;
-        drivePIDConfigs.kD = ModuleConstants.kDDrive;
-        drivePIDConfigs.kV = ModuleConstants.kVDrive;
-        driveConfigurator.apply(driveMotorConfigs);
 
-        refreshPID(ModuleConstants.kPDrive, ModuleConstants.kIDrive, ModuleConstants.kDDrive, ModuleConstants.kVDrive,
-                ModuleConstants.kPTurning, ModuleConstants.kITurning, ModuleConstants.kDTurning);
+        // drivePIDConfigs.kP = ModuleConstants.kPDrive;
+        // drivePIDConfigs.kI = ModuleConstants.kIDrive;
+        // drivePIDConfigs.kD = ModuleConstants.kDDrive;
+        // drivePIDConfigs.kV = ModuleConstants.kVDrive;
+        driveMotorConfigs.Slot0.kP = ModuleConstants.kPDrive;
+        driveMotorConfigs.Slot0.kI = ModuleConstants.kIDrive;
+        driveMotorConfigs.Slot0.kD = ModuleConstants.kDDrive;
+        driveMotorConfigs.Slot0.kV = ModuleConstants.kVDrive;
+        driveConfigurator.apply(driveMotorConfigs);
+        // driveConfigurator.apply(drivePIDConfigs);
+
+        // refreshPID(ModuleConstants.kPDrive, ModuleConstants.kIDrive, ModuleConstants.kDDrive, ModuleConstants.kVDrive,
+                // ModuleConstants.kPTurning, ModuleConstants.kITurning, ModuleConstants.kDTurning);
 
         this.canCoder = new CANcoder(CANCoderId, ModuleConstants.kCANivoreName);
         CANcoderConfiguration config = new CANcoderConfiguration();
-        // config.MagnetSensor.AbsoluteSensorRange =
-        // AbsoluteSensorRangeValue.Unsigned_0To1; //what
+        config.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1;
         config.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
-
-        for (int i = 0; i < 5; i++) {
-            initializationStatus = canCoder.getConfigurator().apply(config);
-            if (initializationStatus.isOK())
-                break;
-            else if (!initializationStatus.isOK())
-                System.out.println("Failed to Configure CAN ID" + CANCoderId);
-        }
+        canCoder.getConfigurator().apply(config);
     }
 
     public void refreshPID(double kPDrive, double kIDrive, double kDDrive, double kVDrive, double kPTurning,
@@ -192,11 +190,11 @@ public class SwerveModule {
         // Change here later to your need
         turnPIDController.setPID(kPTurning, kITurning, kDTurning);
 
+        // driveConfigurator.refresh(drivePIDConfigs);
         drivePIDConfigs.kP = kPDrive;
         drivePIDConfigs.kI = kIDrive;
         drivePIDConfigs.kD = kDDrive;
         drivePIDConfigs.kV = kVDrive;
-        driveConfigurator.refresh(drivePIDConfigs);
         driveConfigurator.apply(drivePIDConfigs);
     }
 
@@ -218,7 +216,6 @@ public class SwerveModule {
         if (Math.abs(current - target) > 180) {
             changes = Math.abs(360 - changes);
             direction *= -1;
-
         }
         return changes * direction;
     }
@@ -234,12 +231,14 @@ public class SwerveModule {
         // ModuleConstants.kDriveTicksPer100MsToMetersPerSec /
         // ModuleConstants.kDriveMotorGearRatio;
         this.desiredVelocity = velocity;
+        // System.out.println("Commanded mps: " + desiredState.speedMetersPerSecond);
+        // System.out.println("Commanded revolutions: " +
+        // desiredState.speedMetersPerSecond / ModuleConstants.kMetersPerRevolution);
+        // System.out.println("Commanded velocity: " + velocity);
 
         double trackedCurrentAngle = getTurningPositionDegreesWithOffset();
-        // double currentAngle = getTurningPositionDegreesWithOffset();
 
         if (Math.abs(closetAngle(trackedCurrentAngle, desiredAngle)) > 90) {
-
             if (desiredAngle > 180) {
                 desiredAngle -= 180;
             } else {
@@ -249,13 +248,16 @@ public class SwerveModule {
         }
 
         turnMotor.set(turnPIDController.calculate(trackedCurrentAngle, desiredAngle));
-        System.out.println(velocity);
 
         if (Math.abs(velocity) < 0.001) {
             driveMotor.setControl(brakeRequest);
         } else if (this.velocityControl) {
+            // System.out.println("Driving with velocity" + velocity);
             driveVelocityRequest.Slot = 0;
             driveMotor.setControl(driveVelocityRequest.withVelocity(desiredVelocity));
+
+            // this needs some testing lol idk
+            // driveMotor.setControl(driveVelocityRequest.withVelocity(desiredState.speedMetersPerSecond));
             this.currentPercent = 0;
         } else {
             this.currentPercent = desiredVelocity / SwerveDriveConstants.kPhysicalMaxSpeedMetersPerSecond;
@@ -406,7 +408,6 @@ public class SwerveModule {
         if (Math.abs(state.speedMetersPerSecond) < 0.01) {
             state.speedMetersPerSecond = 0;
         }
-
         this.desiredState = state;
     }
 
@@ -450,6 +451,8 @@ public class SwerveModule {
                 tab.addNumber("Desired Velocity", () -> this.desiredVelocity);
                 tab.addBoolean("Velocity Control", () -> this.velocityControl);
                 tab.addString("Error Status", () -> driveMotor.getFaultField().getName());
+                // tab.addRaw("Desired State", this::getDesiredState);
+                ;
                 break;
         }
 
