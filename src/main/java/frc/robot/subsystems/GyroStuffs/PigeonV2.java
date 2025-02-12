@@ -27,7 +27,7 @@ public class PigeonV2 extends SubsystemBase {
             DriverStation.reportError("Error instantiating Pigeon 2 over CAN: " + ex.getMessage(), true);
         }
 
-        offset = 0;
+        offset = -180;
         pitchOffset = 0;
         rollOffset = 0;
     }
@@ -87,7 +87,11 @@ public class PigeonV2 extends SubsystemBase {
 
     public double getHeading() {
         // return -pigeon.getAngle() - offset;
+        
+        // getAngle used to return clockwise-positive.
+        // getYaw is CCW-positive
         return pigeon.getYaw().getValueAsDouble() - offset;
+        
     }
 
     public double getYaw() {
