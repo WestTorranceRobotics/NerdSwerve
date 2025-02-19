@@ -79,7 +79,7 @@ public final class Constants {
     public static final double kDTurning = 0;
     public static final double kFTurning = 0;
 
-    public static final double kPDrive = 0.125; // 0.6
+    public static final double kPDrive = 0.155; // 0.6
     public static final double kIDrive = 0;
     public static final double kDDrive = 0.01; 
     public static final double kVDrive = 0.11; 
@@ -134,11 +134,20 @@ public final class Constants {
       public static final boolean kBLCANCoderReversed = true;
       public static final boolean kBRCANCoderReversed = true;
 
-      public static final double kFLEncoderOffset = 45 + 180; //119.6;
-      public static final double kBLEncoderOffset = -45; //-130.7;
-      public static final double kFREncoderOffset = 45; //33.1;
-      public static final double kBREncoderOffset = 35; //52.82;
+      // public static final double kFLEncoderOffset = 45 + 180; //119.6;
+      // public static final double kBLEncoderOffset = -45; //-130.7;
+      // public static final double kFREncoderOffset = 45; //33.1;
+      // public static final double kBREncoderOffset = 35; //52.82;
 
+      public static final double kFLEncoderOffset = 235.723;
+      public static final double kBLEncoderOffset = 332.227;
+      public static final double kFREncoderOffset = 35.068;
+      public static final double kBREncoderOffset = 43.242;
+      
+      // public static final double kFLEncoderOffset = 0;
+      // public static final double kBLEncoderOffset = 0;
+      // public static final double kFREncoderOffset = 0;
+      // public static final double kBREncoderOffset = 0;
     }
 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 10;
@@ -202,120 +211,6 @@ public final class Constants {
       public static final boolean kUseAllianceColor = true;
     }
   }
-
-  public static final class FlywheelConstants {
-
-    public static final int kTopShooterID = 8;
-    public static final int kBottomShooterID = 3;
-
-    // Motor Constants
-    public static final double kRotorToSensorRatio = 0;
-    public static final double kOpenLoopRampRate = 0;
-    public static final int kControlFramePeriod = 0;
-    public static final int kEncoderControlFramePeriod = 0;
-    public static final boolean kInverted = true;
-    public static final boolean kIdleBrake = true;
-
-    // PID Constants
-    public static final double kP = 0;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double kIz = 0;
-    public static final double kF = 0;
-    public static final double kMinOutput = 0;
-    public static final double kMaxOutput = 0;
-
-    public static final double kAllowedError = 0;
-
-    // Shooter Presets
-    public static final double kNeutralVelocity = 0;
-
-  }
-
-  public static final class ArmConstants {
-
-    public static final int kLeftArmMotorID = 5;
-    public static final int kRightArmMotorID = 4;
-    public static final int kArmThroughBoneEncoderAID = 9;
-    public static final int kArmThroughBoneEncoderID = 8;
-
-    // Motor Constants
-    public static final double kRotorToSensorRatio = 0;
-    public static final double kOpenLoopRampRate = 0;
-    public static final int kControlFramePeriod = 50;
-    public static final int kEncoderControlFramePeriod = 20;
-    public static final boolean kLeftInverted = false;
-    public static final boolean kRightInverted = true;
-
-    public static final boolean kIdleBrake = true;
-
-    // PID Constants
-    public static final double kP = 0.075;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double kIz = 0;
-    public static final double kF = 0;
-    public static final double kMinOutput = -1;
-    public static final double kMaxOutput = 1;
-
-    // Smart Motion Constants
-    public static final double kMaxVelocity = 0;
-    public static final double kMinVelocity = 0;
-    public static final double kMaxAccel = 0;
-    public static final double kAllowedError = 0;
-
-    // Position Setpoints
-    public static final double kNeutralPosition = 0;
-    public static final double kGroundIntakePosition = 31.5;
-    public static final double kShooterFeedingPosition = -21;
-    public static final double kAmpScoringPosition = 6;
-
-  }
-
-  public static final class IndexerConstants {
-
-    public static final int kTopIndexerID = 7;
-    public static final int kBottomIndexerID = 2;
-
-    // Motor Constants
-    public static final double kRotorToSensorRatio = 0;
-    public static final double kOpenLoopRampRate = 0;
-    public static final int kControlFramePeriod = 0;
-    public static final int kEncoderControlFramePeriod = 0;
-    public static final boolean kTopInverted = true;
-    public static final boolean kBottomInverted = true;
-
-    public static final boolean kIdleBrake = true;
-
-    // PID Constants
-    public static final double kP = 0.01;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double kIz = 0;
-    public static final double kF = 0;
-    public static final double kMinOutput = 0;
-    public static final double kMaxOutput = 0;
-
-    public static final double kAllowedError = 0;
-
-  }
-
-  public static final class IntakeConstants {
-
-    public static final int kIntakeID = 1;
-
-    // Motor Constants
-    public static final double kRotorToSensorRatio = 0;
-    public static final double kOpenLoopRampRate = 0;
-    public static final int kControlFramePeriod = 0;
-    public static final int kEncoderControlFramePeriod = 0;
-    public static final boolean kInverted = true;
-    public static final boolean kIdleBrake = true;
-
-  }
-
-  public static final class WristConstants {
-
     public static final int kWristMotorID = 31;
     public static final int kWristThroughBoneEncoderAID = 7;
     public static final int kWristThroughBoneEncoderBID = 6;
@@ -354,4 +249,3 @@ public final class Constants {
     public static final double kAmpScoringPosition = -3;
 
   }
-}

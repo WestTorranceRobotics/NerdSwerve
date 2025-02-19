@@ -62,8 +62,8 @@ public class SwerveJoystickCommand extends Command {
     // System.out.println(modifyInputs(y.getAsDouble(), false));
 
     driveFromChassis(ChassisSpeeds.fromFieldRelativeSpeeds(
-      modifyInputs(x.getAsDouble(), false),
-      modifyInputs(y.getAsDouble(), false), 
+      modifyInputs(-x.getAsDouble(), false),
+      modifyInputs(-y.getAsDouble(), false), 
       modifyInputs(z.getAsDouble(), true),
       Rotation2d.fromDegrees(drive.getDriveHeading().getDegrees())));
 

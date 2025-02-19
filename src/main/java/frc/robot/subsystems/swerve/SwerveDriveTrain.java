@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.swerve;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
@@ -30,7 +31,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveDriveConstants;
 import frc.robot.Constants.SwerveAutoConstants.PathPlannerConstants;
 import frc.robot.Constants.SwerveDriveConstants.CANCoderConstants;
-import frc.robot.subsystems.GyroStuffs.PigeonV2;
 
 public class SwerveDriveTrain extends SubsystemBase {
     /** Creates a new SwerveDriveTrain. */
@@ -39,7 +39,7 @@ public class SwerveDriveTrain extends SubsystemBase {
     private final SwerveModule backLeft;
     private final SwerveModule backRight;
 
-    private final PigeonV2 gyro;
+    private final Pigeon2 gyro;
     // private final SwerveDriveOdometry odometer;
     private boolean isTest = false;
     private final SwerveDrivePoseEstimator poseEstimator;
@@ -94,7 +94,7 @@ public class SwerveDriveTrain extends SubsystemBase {
     /**
      * Construct a new {@link SwerveDrivetrain}
      */
-    public SwerveDriveTrain(final PigeonV2 gyro) {
+    public SwerveDriveTrain(final Pigeon2 gyro) {
         // Initializing the modules
         frontLeft = new SwerveModule(
                 SwerveDriveConstants.kFLDriveID,
@@ -130,7 +130,7 @@ public class SwerveDriveTrain extends SubsystemBase {
                 CANCoderConstants.kBREncoderOffset);
 
         this.gyro = gyro;
-        this.gyro.resetHeading(180);
+        this.gyro.setYaw(0);
 
         this.poseEstimator = new SwerveDrivePoseEstimator(SwerveDriveConstants.kDriveKinematics, gyro.getRotation2d(),
                 getModulePositions(), new Pose2d());
@@ -254,7 +254,7 @@ public class SwerveDriveTrain extends SubsystemBase {
         return maxAngleVelocity;
     }
 
-    public final PigeonV2 getImu() {
+    public final Pigeon2 getImu() {
         return this.gyro;
     }
 

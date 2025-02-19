@@ -5,11 +5,11 @@
 package frc.robot;
 
 import frc.robot.commands.swerve.SwerveJoystickCommand;
-import frc.robot.subsystems.GyroStuffs.PigeonV2;
 import frc.robot.subsystems.swerve.SwerveDriveTrain;
 
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -36,24 +36,26 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   CommandPS4Controller driveController = new CommandPS4Controller(0);
 
-  //  private JoystickButton driveXbutton = new JoystickButton(driveController, 1);
-  //  private JoystickButton driveAbutton = new JoystickButton(driveController, 2);
-  //  private JoystickButton driveYbutton = new JoystickButton(driveController, 3);
-  //  private JoystickButton driveBbutton = new JoystickButton(driveController, 4);
+  // private JoystickButton driveXbutton = new JoystickButton(driveController, 1);
+  // private JoystickButton driveAbutton = new JoystickButton(driveController, 2);
+  // private JoystickButton driveYbutton = new JoystickButton(driveController, 3);
+  // private JoystickButton driveBbutton = new JoystickButton(driveController, 4);
 
-  //  private JoystickButton driveRightBumperButton = new JoystickButton(driveController, 5);
-  //  private JoystickButton driveLeftBumperButton = new JoystickButton(driveController, 6);
-  //  private JoystickButton driveLeftTriggerButton = new JoystickButton(driveController, 7);
-  //  private JoystickButton driveRightTriggerButton = new JoystickButton(driveController, 8);
-  //  private POVButton driverUpPOVButton = new POVButton(driveController, 0);
-  //  private POVButton driverDownPOVButton = new POVButton(driveController, 180);
-  //  private POVButton driverRightPOVButton = new POVButton(driveController, 90);
-  //  private POVButton driverLeftPOVButton = new POVButton(driveController, 270);
+  // private JoystickButton driveRightBumperButton = new
+  // JoystickButton(driveController, 5);
+  // private JoystickButton driveLeftBumperButton = new
+  // JoystickButton(driveController, 6);
+  // private JoystickButton driveLeftTriggerButton = new
+  // JoystickButton(driveController, 7);
+  // private JoystickButton driveRightTriggerButton = new
+  // JoystickButton(driveController, 8);
+  // private POVButton driverUpPOVButton = new POVButton(driveController, 0);
+  // private POVButton driverDownPOVButton = new POVButton(driveController, 180);
+  // private POVButton driverRightPOVButton = new POVButton(driveController, 90);
+  // private POVButton driverLeftPOVButton = new POVButton(driveController, 270);
 
-  private PigeonV2 gyro = new PigeonV2(9);
-  private SwerveDriveTrain swerveSubsystem = new SwerveDriveTrain(gyro);
-
-  private TalonFX leftFrontMotor = new TalonFX(14);
+  // private PigeonV2 gyro = new PigeonV2(9);
+  private SwerveDriveTrain swerveSubsystem = new SwerveDriveTrain(new Pigeon2(9));
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -61,9 +63,9 @@ public class RobotContainer {
   public RobotContainer() {
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
-        driveController::getLeftY, 
+        driveController::getLeftY,
         driveController::getLeftX,
-        driveController::getRightX, 
+        driveController::getRightX,
         swerveSubsystem));
     // Configure the trigger bindings
     configureBindings();
@@ -85,13 +87,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    driveController.square().onTrue(Commands.run(() -> {
-      leftFrontMotor.setControl(new VelocityVoltage(5));
-    }));
-
-    driveController.square().onFalse(Commands.runOnce(() -> {
-      leftFrontMotor.setControl(new NeutralOut());
-    }));
 
     // driveAbutton.whileTrue(new ArmPercentCommand(arm, 0.75, false));
     // driveBbutton.whileTrue(new ArmPercentCommand(arm, -0.75, false));
@@ -113,9 +108,11 @@ public class RobotContainer {
     // // driverUpPOVButton.whileTrue(new ArmTargetPositionManual(arm, 31));
     // // driverDownPOVButton.whileTrue(new WristTargetPositionManual(wrist, -3));
 
-    // driverDownPOVButton.whileTrue(new NeutralPositionCommand(arm, wrist, intake));
+    // driverDownPOVButton.whileTrue(new NeutralPositionCommand(arm, wrist,
+    // intake));
     // driverRightPOVButton.whileTrue(new GroundIntakeCommand(arm, intake, wrist));
-    // driverLeftPOVButton.onTrue(new ShooterFeedingCommand(arm, intake, wrist, shooter));
+    // driverLeftPOVButton.onTrue(new ShooterFeedingCommand(arm, intake, wrist,
+    // shooter));
     // driverUpPOVButton.onTrue(new AmpScoringCommand(arm, wrist, intake));
 
     // // driverLeftPOVButton.onTrue(new intakeControlledCommand(intake, 2400));
@@ -129,7 +126,7 @@ public class RobotContainer {
   }
 
   public final void initShuffleboard() {
-    swerveSubsystem.initModuleShuffleboard(3);
+    swerveSubsystem.initModuleShuffleboard(1);
     swerveSubsystem.initMainShuffleboard(1);
   }
 
